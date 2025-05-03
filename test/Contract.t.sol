@@ -6,10 +6,10 @@ import "forge-std/Test.sol";
 import "src/Contract.sol";
 
 contract TestContract is Test {
-    Stake c;
+    StakingContract c;
 
     function setUp() public {
-        c = new Stake();
+        c = new StakingContract();
     }
   function testStake() public {
         uint value = 10 ether;
