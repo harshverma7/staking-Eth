@@ -6,18 +6,27 @@ import "forge-std/Test.sol";
 import "src/Contract.sol";
 
 contract TestContract is Test {
-    Contract c;
+    Stake c;
 
     function setUp() public {
-        c = new Contract();
+        c = new Stake();
+    }
+  function testStake() public {
+        uint value = 10 ether;
+        vm.deal(0x587EFaEe4f308aB2795ca35A27Dff8c1dfAF9e3f, value);
+        vm.prank(0x587EFaEe4f308aB2795ca35A27Dff8c1dfAF9e3f);
+        c.stake{value: value}(value);
+        assert(c.totalStaked() == value);
     }
 
-    function testBar() public {
-        assertEq(uint256(1), uint256(1), "ok");
+    function testUnStake() public {
+        uint value = 10 ether;
+        vm.deal(0x587EFaEe4f308aB2795ca35A27Dff8c1dfAF9e3f, value);
+        vm.startPrank(0x587EFaEe4f308aB2795ca35A27Dff8c1dfAF9e3f);
+        assert(address(0x587EFaEe4f308aB2795ca35A27Dff8c1dfAF9e3f).balance == value);
+        c.stake{value: value}(value);
+        c.unstake(value);
+        assert(c.totalStaked() == 0);
     }
-
-    function testFoo(uint256 x) public {
-        vm.assume(x < type(uint128).max);
-        assertEq(x + x, x * 2);
-    }
+    
 }
