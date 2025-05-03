@@ -17,8 +17,6 @@ contract Stake {
        stakeBalance[msg.sender] -= amount/2;
        totalStaked -= amount/2;
        payable(msg.sender).transfer(amount/2);        
-
-
     }
 
 
