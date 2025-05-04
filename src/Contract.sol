@@ -2,18 +2,23 @@
 pragma solidity ^0.8.13;
 
 contract StakingContract {
+   
+
     uint256 public totalStaked;
     mapping(address=> uint256) stakeBalance;
+    uint256 stakingTime;
 
     function stake(uint256 amount) public payable {
         require(amount > 0, "Amount should be greater than 0");
         require(msg.value == amount , "Amount should be equal to value sent");
         stakeBalance[msg.sender] += amount;
-        totalStaked += amount;        
+        totalStaked += amount;   
+        stakingTime = block.timestamp;     
     }
 
     function unstake(uint256 amount) public payable {
        require(stakeBalance[msg.sender] >= amount, "not enough balance");
+       require( block.timestamp - stakingtime > 10 days , "unstaked too soon");
        stakeBalance[msg.sender] -= amount;
        totalStaked -= amount;
        payable(msg.sender).transfer(amount/2);        
